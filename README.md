@@ -58,18 +58,6 @@ docker-compose up --build
 
 ---
 
-## ✏️ Gerenciar Prompts
-
-Edite os prompts utilizados via menu interativo:
-
-```bash
-make prompt-gui
-```
-
-Voce pode adicionar, editar, remover e listar prompts facilmente. Eles sao salvos em: `app/prompts.yaml`
-
----
-
 ## ✅ Testes
 
 Execute os testes com:
@@ -81,7 +69,7 @@ make test
 Gere o coverage:
 
 ```bash
-make coverage
+make cov
 ```
 
 Abra o relatorio:
