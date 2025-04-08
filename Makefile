@@ -1,47 +1,42 @@
-# Variáveis
-IMAGE_NAME=chatgpt_app
-SERVICE_NAME=app
+.PHONY: build up down api tui cli
 
-# Build da imagem Docker
+# Constrói a imagem Docker a partir do Dockerfile presente no diretório backend
 build:
 	docker-compose build
 
-# Sobe a API com Docker Compose
+# Inicia o container utilizando o docker-compose (modo API por padrão)
 up:
 	docker-compose up
 
-# Derruba os containers
+# Para os containers iniciados pelo docker-compose
 down:
 	docker-compose down
 
-# Roda a TUI no terminal
+# Executa a aplicação no modo API (FastAPI) através do comando "python run.py api"
+api:
+	docker-compose run app python run.py api
+
+# Executa a aplicação no modo TUI (Terminal User Interface)
 tui:
-	docker-compose run --rm $(SERVICE_NAME) python main.py
+	docker-compose run app python run.py tui
 
-# Roda a API no terminal
-run-api:
-	docker-compose run --rm $(SERVICE_NAME) uvicorn api.server:app --reload
+# Executa a aplicação no modo CLI (Terminal interativo simples)
+cli:
+	docker-compose run app python run.py cli
 
-# Acessa o bash do container (útil para debug)
-bash:
-	docker-compose run --rm $(SERVICE_NAME) bash
+# Executa black, isort, flake8 e mypy
+lint:
+	black backend/
+	isort backend/
+	flake8 backend/
+	mypy backend/
 
-# Remove imagens/containers/paradas
-clean:
-	docker system prune -af
+ # Executa todos os hooks de pre-commit
+precommit:
+	pre-commit run --all-files
 
-# Roda os testes
-test:
-	docker-compose run --rm $(SERVICE_NAME) pytest
+build-dev:
+	docker compose -f docker-compose.yml -f docker-compose.override.yml build
 
-# Testes com coverage
-cov:
-	docker-compose run --rm $(SERVICE_NAME) coverage run --source=app --fail-under=80 -m pytest
-
-# Relatório no terminal
-cov-report:
-	docker-compose run --rm $(SERVICE_NAME) coverage report -m
-
-# Relatório em HTML (abre o index.html em /htmlcov)
-cov-html:
-	docker-compose run --rm $(SERVICE_NAME) coverage html
+up-dev:
+	docker compose -f docker-compose.yml -f docker-compose.override.yml up
