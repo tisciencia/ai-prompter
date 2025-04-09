@@ -1,4 +1,5 @@
 import sys
+
 from app.main import run as run_cli
 from app.tui import run_tui
 
@@ -16,6 +17,7 @@ def main():
         run_tui()
     elif mode == "api":
         import uvicorn
+
         uvicorn.run("app.api:app", host="0.0.0.0", port=8000, reload=True)
     else:
         print("Modo inválido. Use: cli | tui | api")
