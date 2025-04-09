@@ -34,7 +34,7 @@ jobs:
         run: |
           black --check backend/
           isort --check-only backend/
-          flake8 backend/
+          flake8 --config=backend/.flake8 backend/
 
       - name: Executa testes
         run: |
