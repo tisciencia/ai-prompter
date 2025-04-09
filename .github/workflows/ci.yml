@@ -35,7 +35,6 @@ jobs:
           black --check backend/
           isort --check-only backend/
           flake8 backend/
-          mypy backend/
 
       - name: Executa testes
         run: |

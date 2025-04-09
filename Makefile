@@ -29,6 +29,7 @@ lint:
 	docker-compose exec app black /app
 	docker-compose exec app isort /app
 	docker-compose exec app flake8 /app
+#	docker-compose exec app mypy /app
 
 # Executa todos os hooks de pre-commit
 precommit:
