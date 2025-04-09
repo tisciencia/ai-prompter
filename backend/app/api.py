@@ -35,6 +35,11 @@ class PromptRequest(BaseModel):
     model: str = "gpt-3.5-turbo"
 
 
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}
+
+
 @limiter.limit("5/minute")
 @app.post("/chat/")
 def chat(request: PromptRequest,
