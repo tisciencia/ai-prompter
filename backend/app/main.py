@@ -1,6 +1,6 @@
-from app.prompt_handler import build_prompt
 from app.chatgpt_client import call_chatgpt
-from app.config import SUPPORTED_MODES, SUPPORTED_MODELS, DEFAULT_MODEL, DEFAULT_MODE
+from app.config import DEFAULT_MODE, DEFAULT_MODEL, SUPPORTED_MODELS, SUPPORTED_MODES
+from app.prompt_handler import build_prompt
 
 
 def run():

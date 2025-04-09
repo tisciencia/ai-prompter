@@ -1,9 +1,10 @@
 from textual.app import App, ComposeResult
-from textual.widgets import Input, Static, Select, Button
 from textual.binding import Binding
-from app.prompt_handler import build_prompt
+from textual.widgets import Button, Input, Select, Static
+
 from app.chatgpt_client import call_chatgpt
-from app.config import SUPPORTED_MODES, SUPPORTED_MODELS
+from app.config import SUPPORTED_MODELS, SUPPORTED_MODES
+from app.prompt_handler import build_prompt
 
 
 class ChatGPTTUI(App):
@@ -16,14 +17,10 @@ class ChatGPTTUI(App):
     def compose(self) -> ComposeResult:
         yield Static("🤖 ChatGPT TUI")
         yield Select(
-            options=[(m, m) for m in SUPPORTED_MODES], 
-            prompt="Modo:", 
-            id="mode"
+            options=[(m, m) for m in SUPPORTED_MODES], prompt="Modo:", id="mode"
         )
         yield Select(
-            options=[(m, m) for m in SUPPORTED_MODELS], 
-            prompt="Modelo:", 
-            id="model"
+            options=[(m, m) for m in SUPPORTED_MODELS], prompt="Modelo:", id="model"
         )
         yield Input(placeholder="Digite sua mensagem e pressione Enter")
         yield Button("Sair", variant="error", id="quit-button")

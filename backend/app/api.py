@@ -1,13 +1,13 @@
-from fastapi import FastAPI, Request, Depends
-from pydantic import BaseModel
-from app.prompt_handler import build_prompt
-from app.chatgpt_client import call_chatgpt
-from app.config import SUPPORTED_MODES, SUPPORTED_MODELS
+from fastapi import Depends, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
-from app.auth import api_key_auth
 
+from app.auth import api_key_auth
+from app.chatgpt_client import call_chatgpt
+from app.config import SUPPORTED_MODELS, SUPPORTED_MODES
+from app.prompt_handler import build_prompt
 
 limiter = Limiter(key_func=get_remote_address)
 app = FastAPI()
@@ -42,8 +42,7 @@ def health_check():
 
 @limiter.limit("5/minute")
 @app.post("/chat/")
-def chat(request: PromptRequest,
-         api_key: str = Depends(api_key_auth)):
+def chat(request: PromptRequest, api_key: str = Depends(api_key_auth)):
     if request.mode not in SUPPORTED_MODES:
         return {"error": f"Modo '{request.mode}' não suportado"}
     if request.model not in SUPPORTED_MODELS:

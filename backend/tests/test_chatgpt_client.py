@@ -1,5 +1,7 @@
-import pytest
 from unittest.mock import patch
+
+import pytest
+
 from app.chatgpt_client import call_chatgpt
 from app.prompt_handler import build_prompt
 

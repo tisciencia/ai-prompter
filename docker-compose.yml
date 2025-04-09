@@ -11,3 +11,5 @@ services:
       - ./backend/.env
     environment:
       - ENV=prod
+    volumes:
+      - ./backend:/app

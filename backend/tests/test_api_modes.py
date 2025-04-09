@@ -1,6 +1,8 @@
-import pytest
 from unittest.mock import patch
+
+import pytest
 from fastapi.testclient import TestClient
+
 from app.api import app
 from app.config import API_KEY
 
@@ -12,17 +14,13 @@ async def test_chat_modes():
     payload = {
         "text": "Corrija este texto por favor",
         "mode": "corrigir",
-        "model": "gpt-3.5-turbo"
+        "model": "gpt-3.5-turbo",
     }
 
     with patch("app.api.call_chatgpt") as mock_call:
         mock_call.return_value = "Texto corrigido mockado"
-        
-        response = client.post(
-            "/chat/",
-            headers=headers,
-            json=payload
-        )
-        
+
+        response = client.post("/chat/", headers=headers, json=payload)
+
         assert response.status_code == 200
         assert response.json()["response"] == "Texto corrigido mockado"

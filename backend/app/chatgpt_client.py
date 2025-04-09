@@ -1,6 +1,8 @@
 import logging
+
 from openai import OpenAI
-from app.config import OPENAI_API_KEY, DEFAULT_MODEL, SUPPORTED_MODELS
+
+from app.config import DEFAULT_MODEL, OPENAI_API_KEY, SUPPORTED_MODELS
 
 logger = logging.getLogger(__name__)
 
@@ -18,8 +20,8 @@ def call_chatgpt(prompt: str, model: str = DEFAULT_MODEL) -> str:
             model=model,
             messages=[
                 {"role": "system", "content": "Você é um assistente útil."},
-                {"role": "user", "content": prompt}
-            ]
+                {"role": "user", "content": prompt},
+            ],
         )
         resposta = response.choices[0].message.content.strip()
         logger.info("Recebida resposta da API com sucesso")

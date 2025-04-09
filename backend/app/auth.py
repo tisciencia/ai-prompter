@@ -1,6 +1,8 @@
-from fastapi import Header, HTTPException, status, Depends
-from app.config import API_KEY
 from typing import Optional
+
+from fastapi import Header, HTTPException, status
+
+from app.config import API_KEY
 
 
 def api_key_auth(x_api_key: Optional[str] = Header(None)):

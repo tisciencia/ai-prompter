@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    env:
+      OPENAI_API_KEY: "dummy"
+      API_KEY: "your-api-key-para-autenticacao"
+      ENV: dev
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configura Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instala dependências
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r backend/requirements.txt
+          pip install -r backend/requirements-dev.txt
+
+      - name: Executa linters
+        run: |
+          black --check backend/
+          isort --check-only backend/
+          flake8 backend/
+          mypy backend/
+
+      - name: Executa testes
+        run: |
+          pytest --cov=app --cov-report=term-missing backend/tests/
+
+      - name: Valida build Docker
+        run: docker build -t chatgpt-app ./backend

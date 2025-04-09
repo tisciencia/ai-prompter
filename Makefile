@@ -26,23 +26,26 @@ cli:
 
 # Executa black, isort, flake8 e mypy
 lint:
-	black backend/
-	isort backend/
-	flake8 backend/
-	mypy backend/
+	docker-compose exec app black /app
+	docker-compose exec app isort /app
+	docker-compose exec app flake8 /app
 
- # Executa todos os hooks de pre-commit
+# Executa todos os hooks de pre-commit
 precommit:
-	pre-commit run --all-files
+	docker-compose exec app pre-commit run --all-files
 
+# Constrói a imagem Docker com as configurações de desenvolvimento
 build-dev:
-	docker compose -f docker-compose.yml -f docker-compose.override.yml build
+	docker-compose -f docker-compose.yml -f docker-compose.override.yml build
 
+# Inicia o container com as configurações de desenvolvimento
 up-dev:
-	docker compose -f docker-compose.yml -f docker-compose.override.yml up
+	docker-compose -f docker-compose.yml -f docker-compose.override.yml up
 
+# Executa os testes usando pytest
 test:
 	docker-compose exec app pytest tests
 
+# Executa os testes com cobertura de código usando pytest-cov
 test-cov:
 	docker-compose exec app pytest --cov=app --cov-report=term-missing tests/
