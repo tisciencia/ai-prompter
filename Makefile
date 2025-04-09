@@ -40,3 +40,9 @@ build-dev:
 
 up-dev:
 	docker compose -f docker-compose.yml -f docker-compose.override.yml up
+
+test:
+	docker-compose exec app pytest tests
+
+test-cov:
+	docker-compose exec app pytest --cov=app --cov-report=term-missing tests/
